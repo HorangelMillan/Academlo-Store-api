@@ -1,0 +1,17 @@
+extends base
+
+block emailContent
+  p A new post has been created
+
+  div(class="post-card")
+    ul
+      each purchase in purchases
+        li
+          p= `Producto:`
+            h3= purchase.product.title
+          p= `Precio:`
+            h2= purchase.product.price
+          p= `Cantidad:`
+            h2= purchase.quantity
+      p= `Total`
+        b= totalPrice

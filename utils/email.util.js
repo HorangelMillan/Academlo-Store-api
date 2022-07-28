@@ -52,10 +52,10 @@ class Email {
         await this.send('welcome', 'Welcome to our app', { name });
     };
 
-    async sendNewPost(title, content) {
-        await this.send('newPost', 'You have created a new post', {
-            title,
-            content,
+    async sendNewPurchase(purchases, totalPrice) {
+        await this.send('purchase', 'You have created a new post', {
+            purchases,
+            totalPrice
         });
     }
 };

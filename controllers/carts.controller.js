@@ -1,8 +1,10 @@
 // Models
+const { Products } = require('../models/product.model');
 const { ProductsInCart } = require('../models/productsInCart.model');
 
 // Utils
 const { catchAsync } = require('../utils/catchAsync.util');
+const { Email } = require('../utils/email.util');
 
 const addProductToCart = catchAsync(async (req, res, next) => {
     const { productId, quantity, cart } = req.body;
@@ -73,11 +75,21 @@ const removeProductInCart = catchAsync(async (req, res, next) => {
 });
 
 const purchase = catchAsync(async (req, res, next) => {
-    const { order } = req.body;
+    const { order, user } = req.body;
+
+    const purchases = await ProductsInCart.findAll({
+        where: {
+            cartId: order.cartId
+        },
+        include: { model: Products }
+    });
+
+    await new Email(user.email).sendNewPurchase(purchases, order.totalPrice);
 
     res.status(200).json({
-       status: 'success',
-       order
+        status: 'success',
+        order,
+        purchases
     });
 });
 

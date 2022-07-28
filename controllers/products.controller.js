@@ -29,7 +29,7 @@ const createProduct = catchAsync(async (req, res, next) => {
 
             return await ProductImgs.create({
                 productId: createdProduct.id,
-                imgUrl: imgRes.metadata.fullPath,
+                imgUrl: imgRes.metadata.fullPath
             });
         });
 
