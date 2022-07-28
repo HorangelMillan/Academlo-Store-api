@@ -22,11 +22,7 @@ class Email {
             // Connect to AWS SES
             return nodemailer.createTransport({
                 SES: new AWS.SES({
-                    region: 'us-east-1',
-                    credentials: {
-                        accessKeyId: process.env.S3_ID,
-                        secretAccessKey: process.env.S3_SECRET
-                    }
+                    region: 'us-east-1'
                 })
             });
         };
