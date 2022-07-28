@@ -2,7 +2,14 @@ const nodemailer = require('nodemailer');
 require('dotenv').config();
 const pug = require('pug');
 const path = require('path');
+const AWS = require('aws-sdk');
 const { htmlToText } = require('html-to-text');
+
+AWS.config.update({
+    accessKeyId: process.env.S3_ID,
+    secretAccessKey: process.env.S3_SECRET,
+    region: 'us-east-1'
+});
 
 class Email {
     constructor(to) {
@@ -14,13 +21,9 @@ class Email {
         if (process.env.NODE_ENV === 'production') {
             // Connect to AWS SES
             return nodemailer.createTransport({
-                from: process.env.EMAIL_FROM,
-                host: process.env.SES_HOST,
-                port: process.env.SES_PORT,
-                auth: {
-                    user: process.env.SES_USERNAME,
-                    pass: process.env.SES_PASSWORD,
-                }
+                SES: new AWS.SES({
+                    apiVersion: '2012-10-17'
+                })
             });
         };
 
