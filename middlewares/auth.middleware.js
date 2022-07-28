@@ -53,7 +53,7 @@ const protectUserAcounts = catchAsync(async (req, res, next) => {
     const { id } = req.params; // existe el param
     const { user, product } = req.body;
 
-    const dinamycId = product.userId || id;
+    const dinamycId = product ? product.userId : id;
 
     if (dinamycId !== user.id) {
         return next(new AppError('this acount does not bellong to you'))
