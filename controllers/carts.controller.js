@@ -87,7 +87,7 @@ const purchase = catchAsync(async (req, res, next) => {
     });
 
     // SMT SES AWS Not work
-    if (process.env.NODE_ENV) {
+    if (process.env.NODE_ENV === 'development') {
         await new Email(user.email).sendNewPurchase(purchases, order.totalPrice);
     };
 
