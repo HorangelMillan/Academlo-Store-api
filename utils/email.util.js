@@ -6,8 +6,8 @@ const AWS = require('aws-sdk');
 const { htmlToText } = require('html-to-text');
 
 AWS.config.update({
-    accessKeyId: process.env.SES_USER,
-    secretAccessKey: process.env.SES_PASSWORD,
+    accessKeyId: process.env.S3_ID,
+    secretAccessKey: process.env.S3_SECRET,
     region: 'us-east-1'
 });
 
