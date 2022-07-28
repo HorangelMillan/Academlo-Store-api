@@ -16,6 +16,7 @@ class Email {
             return nodemailer.createTransport({
                 from: process.env.EMAIL_FROM,
                 host: process.env.SES_HOST,
+                port: process.env.SES_PORT,
                 auth: {
                     user: process.env.SES_USERNAME,
                     pass: process.env.SES_PASSWORD,
