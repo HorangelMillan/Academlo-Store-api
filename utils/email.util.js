@@ -21,13 +21,13 @@ class Email {
         if (process.env.NODE_ENV === 'production') {
             // Connect to AWS SES
             return nodemailer.createTransport({
-                port: process.env.SES_PORT,
-                host: process.env.SES_HOST,
-                secure: true,
-                auth: {
-                    user: process.env.S3_ID,
-                    pass: process.env.S3_SECRET
-                }
+                SES: new AWS.SES({
+                    region: 'us-east-1',
+                    credentials: {
+                        accessKeyId: process.env.S3_ID,
+                        secretAccessKey: process.env.S3_SECRET
+                    }
+                })
             });
         };
 
