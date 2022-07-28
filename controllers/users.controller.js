@@ -24,7 +24,10 @@ const createUser = catchAsync(async (req, res, next) => {
 
     delete createdUser.password
 
-    await new Email(email).sendWelcome(username);
+    // SMT SES AWS Not work
+    if (process.env.NODE_ENV === 'development') {
+        await new Email(email).sendWelcome(username);
+    };
 
     res.status(200).json({
         status: 'success',

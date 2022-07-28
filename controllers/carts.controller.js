@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 // Models
 const { Products } = require('../models/product.model');
 const { ProductsInCart } = require('../models/productsInCart.model');
@@ -84,7 +86,10 @@ const purchase = catchAsync(async (req, res, next) => {
         include: { model: Products }
     });
 
-    await new Email(user.email).sendNewPurchase(purchases, order.totalPrice);
+    // SMT SES AWS Not work
+    if (process.env.NODE_ENV) {
+        await new Email(user.email).sendNewPurchase(purchases, order.totalPrice);
+    };
 
     res.status(200).json({
         status: 'success',
