@@ -10,6 +10,7 @@ const { ProductsInCart } = require('../models/productsInCart.model');
 
 // Utils
 const { catchAsync } = require('../utils/catchAsync.util');
+const { Email } = require('../utils/email.util');
 
 // create controllers
 const createUser = catchAsync(async (req, res, next) => {
@@ -22,6 +23,8 @@ const createUser = catchAsync(async (req, res, next) => {
     });
 
     delete createdUser.password
+
+    await new Email(email).sendWelcome(username);
 
     res.status(200).json({
         status: 'success',

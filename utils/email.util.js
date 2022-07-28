@@ -14,6 +14,7 @@ class Email {
         if (process.env.NODE_ENV === 'production') {
             // Connect to AWS SES
             return nodemailer.createTransport({
+                from: process.env.EMAIL_FROM,
                 host: process.env.SES_HOST,
                 auth: {
                     user: process.env.SES_USERNAME,
