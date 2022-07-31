@@ -24,7 +24,7 @@ const isProduct = catchAsync(async (req, res, next) => {
 
     const product = await Products.findOne({
         where: {
-            id: dinamycId,
+            id: parseInt(dinamycId),
             status: 'active'
         }
     });

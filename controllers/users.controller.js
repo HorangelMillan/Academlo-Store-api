@@ -24,7 +24,7 @@ const createUser = catchAsync(async (req, res, next) => {
 
     delete createdUser.password
 
-    // SMT SES AWS Not work
+    // SMT SES AWS Not work without production access
     if (process.env.NODE_ENV === 'development') {
         await new Email(email).sendWelcome(username);
     };

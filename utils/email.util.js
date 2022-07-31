@@ -2,13 +2,18 @@ const nodemailer = require('nodemailer');
 require('dotenv').config();
 const pug = require('pug');
 const path = require('path');
-const AWS = require('aws-sdk');
 const { htmlToText } = require('html-to-text');
+const aws = require('@aws-sdk/client-ses');
+const { defaultProvider } = require('@aws-sdk/credential-provider-node');
 
-AWS.config.update({
-    accessKeyId: process.env.S3_ID,
-    secretAccessKey: process.env.S3_SECRET,
-    region: 'us-east-1'
+const ses = new aws.SES({
+    credentials: {
+        accessKeyId: process.env.S3_ID,
+        secretAccessKey: process.env.S3_SECRET
+    },
+    apiVersion: '2012-10-17',
+    region: 'us-east-1',
+    defaultProvider
 });
 
 class Email {
@@ -18,13 +23,13 @@ class Email {
 
     // Connect to mail service
     newTransport() {
-        if (process.env.NODE_ENV === 'production') {
-            // Connect to AWS SES
+        if (process.env.NODE_ENV === "production") {
             return nodemailer.createTransport({
-                SES: new AWS.SES({
-                    region: 'us-east-1'
-                })
-            });
+                SES: {
+                    ses,
+                    aws
+                }
+            })
         };
 
         return nodemailer.createTransport({
@@ -40,7 +45,7 @@ class Email {
     // Send the actual mail
     async send(template, subject, mailData) {
         const html = pug.renderFile(
-            path.join(__dirname, '..', 'views', 'emails', `${template}.pug`),
+            path.join(__dirname, `../views/emails/${template}.pug`),
             mailData
         );
 
@@ -54,15 +59,15 @@ class Email {
     };
 
     async sendWelcome(name) {
-        await this.send('welcome', 'Welcome to our app', { name });
+        await this.send('welcome', 'Welcome to our e-commerce', { name });
     };
 
     async sendNewPurchase(purchases, totalPrice) {
-        await this.send('purchase', 'You have created a new post', {
+        await this.send('purchase', 'You have a new purchase', {
             purchases,
             totalPrice
         });
-    }
+    };
 };
 
 module.exports = { Email };

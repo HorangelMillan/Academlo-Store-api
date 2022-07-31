@@ -11,7 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.1183.0",
+    "@aws-sdk/client-ses": "^3.137.0",
+    "@aws-sdk/credential-provider-node": "^3.137.0",
     "bcryptjs": "^2.4.3",
     "compression": "^1.7.4",
     "dotenv": "^16.0.1",
